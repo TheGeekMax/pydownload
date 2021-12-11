@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Logs dl yt</title>
+
+	<style type="text/css">
+		body{
+			margin:0;
+			padding:0;
+			background-color: #272A5D;
+			color:#fdfdff;
+			font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		}
+		h1{
+			text-align: center;
+		}
+		#logs{
+			width:400px;
+			position:relative;
+			left:50%;
+			transform: translate(-50%,0);
+		}
+	</style>
+
+	<script type="text/javascript">
+		function readTextFile(file, callback) {
+			 var rawFile = new XMLHttpRequest();
+			 rawFile.overrideMimeType("application/json");
+			 rawFile.open("GET", file, true);
+			 rawFile.onreadystatechange = function() {
+				  if (rawFile.readyState === 4 && rawFile.status == "200") {
+				   	callback(rawFile.responseText);
+				  }
+			 }
+			 rawFile.send(null);
+		}
+
+		function changeData(){
+			//logs.innerHTML = ""
+			readTextFile("http://192.168.1.26:8080/ytdl/getdata",(e) =>{
+				data = JSON.parse(e)
+				title.innerHTML = data["title"]
+				for(var i = 0 ; i < data["logs"].length; i++){
+					if(document.getElementById("line"+i) == null){
+						logs.innerHTML += "<p id=\"line"+i+"\">"+data["logs"][i]+"</p>"
+					}else{
+						document.getElementById("line"+i).innerHTML = data["logs"][i]
+					}
+				}
+			})
+		}
+
+		var title,content;
+		window.onload = function(){
+			title = document.getElementById("title")
+			content = document.getElementById("logs")
+
+			changeData()
+			setInterval(changeData,500)
+		}
+	</script>
+</head>
+<body>
+	<h1 id="title"></h1>
+	<div id="logs">
+		
+	</div>
+</body>
+</html>
