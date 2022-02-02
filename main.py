@@ -26,7 +26,7 @@ update(suivi)
 def download(playlist):
     global suivi
     URL_TEMPLATE = "https://www.youtube.com/watch?v="
-    yt = Api(api_key="AIzaSyD_KNDOiC93q1olAU97988wLS0smcXeHu8")
+    yt = Api(api_key="CLEF API")
 
     #innitialisation de la playlist
     videos = yt.get_playlist_items(playlist_id=playlist,count=None)
